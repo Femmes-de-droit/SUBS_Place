@@ -48,7 +48,7 @@ def ma_fonction():
 
 [Texte du lien](https://www.google.com)
 
-![Texte alternatif de l'image](https://www.google.com/logo.png)
+![Logo de FDD](https://i0.wp.com/femmesdedroit.be/wp-content/uploads/2018/04/cropped-FDD-AVATAR-Rond-RVB.jpg?w=240&ssl=1)
 
 | Colonne 1 | Colonne 2 | Colonne 3 |
 |-----------|-----------|-----------|
