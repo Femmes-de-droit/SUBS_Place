@@ -4,12 +4,12 @@ Projet de gestion financière. Comptabilité et gestion des subsides. Pour les a
 
 Liste des versions planifiées :
 
-- [] Version 1.0 : Gestion des subsides
-  - [] 1.1 : Gestion des subsides
-  - [] 1.2 : Gestion des comptes
-- [] Version 2.0 : Portail unifier
-  - [] 2.1 : Gestion des subsides
-  - [] 2.2 : Gestion des comptes
+- [ ] Version 1.0 : Gestion des subsides
+  - [ ] 1.1 : Gestion des subsides
+  - [ ] 1.2 : Gestion des comptes
+- [ ] Version 2.0 : Portail unifier
+  - [ ] 2.1 : Gestion des subsides
+  - [ ] 2.2 : Gestion des comptes
 
 Liste des étapes de développement :
 
@@ -63,8 +63,6 @@ def ma_fonction():
 > > Citation imbriquée
 > >
 > > > Citation imbriquée
-
----
 
 Séparation horizontale
 
