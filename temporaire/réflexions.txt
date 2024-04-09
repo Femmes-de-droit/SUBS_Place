@@ -1,0 +1,235 @@
+
+Déploiement de l'environnement et de ses dépendances via Docker :
+
+
+
+
+
+
+
+
+
+
+Dockerfile  :
+**************
+# Utilisation d'une image Python 3.8
+FROM python:3.8
+
+# Définition de l'environnement de travail
+WORKDIR /usr/src/app
+
+# Installation des dépendances
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie du code de l'application
+COPY . .
+
+# Exposition du port 8000
+EXPOSE 8000
+
+# Commande pour démarrer l'application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+
+Notez que ce Dockerfile suppose que votre application Django est configurée pour se connecter à une base de données PostgreSQL qui s'exécute dans un autre conteneur. 
+Pour cela, vous pouvez utiliser Docker Compose pour gérer plusieurs conteneurs. Voici un exemple de fichier docker-compose.yml :
+
+
+
+Pour éviter d'intégrer les informations d'identification dans le code source, vous pouvez utiliser des variables d'environnement. Les variables d'environnement sont des valeurs qui peuvent être définies dans l'environnement d'exécution de votre application et qui peuvent être lues par votre application.
+
+Dans le contexte de Docker et Docker Compose, vous pouvez définir des variables d'environnement dans votre fichier docker-compose.yml. Par exemple :
+
+Dans cet exemple, ${DB_NAME}, ${DB_USER}, ${DB_PASSWORD} et ${DJANGO_SECRET_KEY} sont des variables d'environnement. Vous pouvez définir ces variables d'environnement dans un fichier .env dans le même répertoire que votre fichier docker-compose.yml. Par exemple :
+
+un fichier .env :
+******************
+# .env
+DB_NAME=mydatabase
+DB_USER=myuser
+DB_PASSWORD=mypassword
+DJANGO_SECRET_KEY=mysecretkey
+
+
+
+Notez que le fichier .env ne doit pas être ajouté à votre système de contrôle de version (par exemple, en l'ajoutant à votre fichier .gitignore) pour éviter de divulguer vos informations d'identification.
+
+Dans votre application Django, vous pouvez lire ces variables d'environnement avec os.environ. Par exemple :
+
+import os
+
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+
+
+De cette façon, vos informations d'identification sont stockées en toute sécurité et ne sont pas intégrées dans votre code source.
+
+
+docker-compose.yml :
+********************
+
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**************************************
+
+
+- [ ] 0.4 : Tests.
+  - [ ] 0.4.1 : Tests unitaires.
+  - [ ] 0.4.2 : Tests fonctionnels.
+- [ ] 0.5 : Documentation.
+  - [ ] 0.5.1 : Documentation utilisateur.
+  - [ ] 0.5.2 : Documentation développeur.
+
+
+
+  - [ ] 0.7 : Maintenance.
+  - [ ] 0.7.1 : Maintenance corrective.
+  - [ ] 0.7.2 : Maintenance évolutive.
+  - [ ] 0.7.3 : Maintenance préventive.
+  - [ ] 0.8 : Support.
+  - [ ] 0.8.1 : Support utilisateur.
+  - [ ] 0.8.2 : Support développeur.
+  - [ ] 0.9 : Formation.
+  - [ ] 0.9.1 : Formation utilisateur.
+  - [ ] 0.9.2 : Formation développeur.
+
+
+
+
+
+## Base de données.
+
+
+Réflexions sur les tables de la DB :
+
+- Table: SubsidiaryEntity
+  - Columns: id, name, address, contact_person, email, phone
+
+- Table: BankStatement
+  - Columns: id, subsidiary_id, date, description, amount
+
+Table: ExpenseCategory
+Columns: id, name
+
+Table: Expense
+Columns: id, bank_statement_id, category_id, amount
+
+Table: SubsidyCategory
+Columns: id, name
+
+Table: Subsidy
+Columns: id, bank_statement_id, category_id, amount
+
+(Mdp de la DB : subs_place
+firs9442Test
+Port : 5437
+)
+
+Code pour créer les tables :
+
+```sql
+CREATE TABLE SubsidiaryEntity (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address TEXT NOT NULL,
+    contact_person VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE BankStatement (
+    id SERIAL PRIMARY KEY,
+    subsidiary_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    description TEXT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE ExpenseCategory (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Expense (
+    id SERIAL PRIMARY KEY,
+    bank_statement_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE SubsidyCategory (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Subsidy (
+    id SERIAL PRIMARY KEY,
+    bank_statement_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL
+);
+```
+
+
+## Réflexions sur les tests.
+
+
+    - [ ] 1.3 : Tests unitaires.
+    - [ ] 1.4 : Tests fonctionnels.
+    - [ ] 1.5 : Tests de performance.
+    - [ ] 1.6 : Tests de sécurité.
+    - [ ] 1.7 : Tests de compatibilité.
+    - [ ] 1.8 : Tests de montée en charge.
+    - [ ] 1.9 : Tests de robustesse.
+    - [ ] 1.10 : Tests de non-régression.
+    - [ ] 1.11 : Tests de conformité.
+    - [ ] 1.12 : Tests de validation.
+    - [ ] 1.13 : Tests de recette.
+    - [ ] 1.14 : Tests de production.
+    - [ ] 1.15 : Tests de pré-production.
+    - [ ] 1.16 : Tests de développement.
+    - [ ] 1.17 : Tests de qualification.
