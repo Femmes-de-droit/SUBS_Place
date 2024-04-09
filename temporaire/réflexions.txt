@@ -1,15 +1,6 @@
 
 Déploiement de l'environnement et de ses dépendances via Docker :
 
-
-
-
-
-
-
-
-
-
 Dockerfile  :
 **************
 # Utilisation d'une image Python 3.8
