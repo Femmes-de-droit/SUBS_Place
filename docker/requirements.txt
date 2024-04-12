@@ -1,7 +1,7 @@
 # requirements.txt
 
 # Main dependencies
-Django==3.2.8
+Django==3.2.25
 psycopg2==2.9.1
 
 # Additional dependencies
